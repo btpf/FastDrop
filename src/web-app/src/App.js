@@ -1,10 +1,10 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import Navbar from "./components/Navbar.js";
 import theme from "./theme.js";
+import Simple from "./components/Simple.js";
 
 function App() {
   return <ChakraProvider theme={theme}>
-      <Navbar/>
+      <Simple/>
   </ChakraProvider>
 }
 
