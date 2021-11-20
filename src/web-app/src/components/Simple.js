@@ -5,11 +5,13 @@ import {
     Flex,
     Link,
     Stack,
+    Center,
+    Button,
     HStack,
     IconButton,
     useDisclosure,
     useColorMode,
-    useColorModeValue
+    useColorModeValue,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 
@@ -17,9 +19,9 @@ const Links = ["Friends", "Profile", "About"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
     <Link
-        px={2}
-        py={1}
-        rounded={"xl"}
+        px="2"
+        py="1"
+        rounded="xl"
         _hover={{
             textDecoration: "none",
             bg: useColorModeValue("gray.300", "gray.600"),
@@ -43,29 +45,29 @@ export default function Simple() {
                         display={{ md: "none" }}
                         onClick={isOpen ? onClose : onOpen}
                     />
-                    <HStack spacing={8} alignItems="center">
+                    <HStack spacing={8} >
                         <HStack
                             as="nav"
                             spacing="4"
                             display={{ base: "none", md: "flex" }}>
-                            {Links.map((link) => (
-                                <NavLink key={link}>{link}</NavLink>
-                            ))}
+                            {Links.map((link) => (<Button size="md" rounded="2xl" boxShadow="sm" bgColor="gray.300" key={link}>{link}</Button>))}
                         </HStack>
-                    </HStack>
 
-                    <Flex alignItems="center">
-                        <Text bgGradient={colorMode === "light" ?
+                        <Flex>
+                            <Text bgGradient={colorMode === "light" ?
                                 "linear(to-r, gray.600, gray.800)":
                                 "linear(to-l, gray.300, gray.200)"}
-                              bgClip="text" fontSize="3xl" fontWeight="bold">
-                            Fast Drop</Text>
-                    </Flex>
+                                  bgClip="text" fontSize="3xl" fontWeight="bold">
+                                Fast Drop</Text>
+                        </Flex>
+                    </HStack>
+
+
 
                     <Flex alignItems="center">
                         <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
-                            onClick={toggleColorMode} sz="lg" rounded="xl"
-                            backgroundColor={colorMode === "light" ? "gray.200" : "gray.700"}
+                            onClick={toggleColorMode} size="lg" rounded="2xl"
+                            backgroundColor={colorMode === "light" ? "gray.300" : "gray.700"}
                             _hover={{bg: useColorModeValue('gray.300', 'gray.600')}}/>
                     </Flex>
                 </Flex>
@@ -81,7 +83,7 @@ export default function Simple() {
                 ) : null}
             </Box>
 
-            <Box p={4}>Hello!</Box>
+            <Box p={4}></Box>
         </>
     );
 }
