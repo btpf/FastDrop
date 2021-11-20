@@ -5,7 +5,7 @@ import {
     Flex,
     Link,
     Stack,
-    Center,
+    Container,
     Button,
     HStack,
     IconButton,
@@ -40,9 +40,10 @@ export default function Simple() {
             <Box boxShadow="md" bg={useColorModeValue('gray.200', 'gray.900')} px={4}>
                 <Flex h={16} alignItems="center" justifyContent="space-between">
                     <IconButton
-                        size="md"
-                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                        display={{ md: "none" }}
+                        size="lg"
+                        bgColor={useColorModeValue("gray.300", "gray.700")}
+                        _hover={{bg: useColorModeValue("gray.400", "gray.600")}}
+                        icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>} display={{ md: "none" }}
                         onClick={isOpen ? onClose : onOpen}
                     />
                     <HStack spacing={8} >
@@ -50,31 +51,33 @@ export default function Simple() {
                             as="nav"
                             spacing="4"
                             display={{ base: "none", md: "flex" }}>
-                            {Links.map((link) => (<Button size="md" rounded="2xl" boxShadow="sm" bgColor="gray.300" key={link}>{link}</Button>))}
+                            {Links.map((link) => (
+                            <Button size="md" rounded="2xl" boxShadow="md" key={link}
+                                bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
+                                {link}</Button>))}
                         </HStack>
 
                         <Flex>
+                            <Container justify="center" align="center">
                             <Text bgGradient={colorMode === "light" ?
                                 "linear(to-r, gray.600, gray.800)":
                                 "linear(to-l, gray.300, gray.200)"}
                                   bgClip="text" fontSize="3xl" fontWeight="bold">
-                                Fast Drop</Text>
+                                Fast Drop</Text></Container>
                         </Flex>
                     </HStack>
 
-
-
-                    <Flex alignItems="center">
+                    <Flex>
                         <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
-                            onClick={toggleColorMode} size="lg" rounded="2xl"
-                            backgroundColor={colorMode === "light" ? "gray.300" : "gray.700"}
-                            _hover={{bg: useColorModeValue('gray.300', 'gray.600')}}/>
+                            onClick={toggleColorMode} size="lg" rounded="2xl" boxShadow="sm"
+                            bgColor={useColorModeValue("gray.300", "gray.700")}
+                            _hover={{bg: useColorModeValue("gray.400", "gray.600")}}/>
                     </Flex>
                 </Flex>
 
                 {isOpen ? (
-                    <Box pb={4} display={{ md: "none" }}>
-                        <Stack as={"nav"} spacing={4}>
+                    <Box pb="4" display={{ md: "none" }} >
+                        <Stack as="nav" spacing="4">
                             {Links.map((link) => (
                                 <NavLink key={link}>{link}</NavLink>
                             ))}
