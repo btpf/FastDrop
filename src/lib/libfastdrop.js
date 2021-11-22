@@ -45,9 +45,31 @@ class libFastDrop {
     }
 
     sendText(uid, text) {
-        this.openConnection(uid, (e) => {
+        const config = {type:"text"}
+        this.openConnection(uid,config, (e) => {
+            console.log("--> Peer Ready, Sending Text")
             // console.log(this.sessions)
-            this.sessions[uid].dc.send(text)
+            let dc = this.sessions[uid].createDataChannel("text")
+        console.log(dc.readyState)
+
+        // It appears as if the open state is by default
+        // Possibly because the primary connection has already been established?
+        // Regardless, i choose to handle this in an if statement in case this is a bug
+        // With wrtc implementation
+        if(dc.readyState == "open"){
+            dc.send(text)
+        }else{
+            dc.onopen = async (e) => {
+                console.log("Text Channel Opened")
+                dc.send(text)
+            }
+        }
+
+    
+            dc.onmessage = (e) => {
+                console.log("New Message: " + e.data)
+            }
+            // this.sessions[uid].dc.send(text)
         })
 
     }
@@ -57,21 +79,23 @@ class libFastDrop {
     }
 
     // Opens a peer connection with a friend
-    openConnection = async (uid, operationCallback) => {
+    openConnection = async (uid,config, operationCallback) => {
         const pc = new RTCPeerConnection(this.RTCPeerConnectionConfig);
         // https://stackoverflow.com/questions/19609077/does-webrtc-handle-packet-loss-and-packet-received-confirmations-etc-for-you-or
         // Adding reliable makes webrtc use TCP, which handles packet loss
-        let dc = pc.createDataChannel("Channel", {reliable:true})
+        // Save peer connection in sessions
+        this.sessions[uid] = pc
+
+        let dc = pc.createDataChannel("config", {reliable:true})
         dc.onopen = async (e) => {
-            console.log("Connection Opened")
-            await operationCallback(e)
+            console.log(" --> Connection Opened, Sending Config")
+            dc.send(JSON.stringify(config))
             // dc.send("HI")
         }
 
-        dc.onmessage = e => {
-            // console.log(e.data)
-            // console.log(e)
-            console.log("New Message")
+        dc.onmessage = (e) => {
+            console.log("<-- Config response: " + e.data)
+           operationCallback(e)
         }
         pc.onicecandidate = (event) => {
             if (event.candidate) {
@@ -91,7 +115,6 @@ class libFastDrop {
             type: offerDescription.type
         }
         pc.dc = dc
-        this.sessions[uid] = pc
         this.socket.emit("offer", { to: uid, from: this.user.uid, offer })
     }
 
@@ -118,9 +141,24 @@ class libFastDrop {
 
         await pc.setRemoteDescription(event.offer);
         pc.ondatachannel = e => {
+            let channelLabel = e.channel.label
             let dc = e.channel
-            dc.onmessage = e => console.log("New message: " + e.data)
-            dc.onopen = e => console.log("Connection Opened")
+            console.log("New Data Channel: " + channelLabel)
+
+            if(channelLabel == "config"){
+            dc.onmessage = (e) =>{
+             console.log("Config Recieved: " + e.data)
+            pc.config = JSON.parse(e.data)
+            dc.send("ready")
+            }
+        }
+        if(channelLabel == "text"){
+            dc.onmessage = (e) =>{
+                console.log(e.data)
+             dc.send("Text Recieved")
+            }
+        }
+            // dc.onopen = e => console.log("Datachannel Opened: " + JSON.stringify(e))
             pc.dc = dc
         }
 
@@ -141,13 +179,12 @@ class libFastDrop {
     }
 
     async #onAnswer(event) {
-        console.log("answer recievedd")
-        // console.log(event)
+        // console.log("<-- answer recieved")
         let connection = this.sessions[event.from]
         await connection.setRemoteDescription(event.offer);
     }
     async #onOfferIce(event) {
-        console.log("ICE recieved")
+        // console.log("ICE recieved")
         // console.log(event)
         let connection = this.sessions[event.from]
         // console.log(this.sessions)
