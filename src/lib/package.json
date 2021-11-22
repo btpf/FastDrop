@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./client.js",
+    "reciever": "USER=reciever nodemon ./tests/test.js",
+    "sender": "USER=sender nodemon ./tests/test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.3.2",
+    "socket.io-client": "^4.3.2",
+    "wrtc": "^0.4.7"
+  }
+}
