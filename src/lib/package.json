@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./client.js",
-    "reciever": "USER=reciever nodemon ./tests/test.js",
+    "reciever": "USER=receiver nodemon ./tests/test.js",
     "sender": "USER=sender nodemon ./tests/test.js"
   },
   "author": "",
