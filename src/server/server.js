@@ -4,7 +4,7 @@ const app = express()
 const server = http.createServer(app)
 const socket = require("socket.io")
 const io = socket(server)
-const port = 8000
+const port = 6970
 
 let ramdb = { addressBook: {}, userSessions: {}, onlineUsers: 0 }
 
@@ -38,7 +38,12 @@ io.on("connection", socket => {
     // When the user connects to the server, they will identify themselves
     socket.on("identify", (data) => {
         // Push their identity and socket id to the ramdb
+
+        // Dictionary mapping socket Id's to the user Data
         ramdb.userSessions[socket.id] = data
+
+        // Dictionary mapping user UID to the socket ID
+        // This is done for fast lookups
         ramdb.addressBook[data.uid] = socket.id
         ramdb.onlineUsers++
 
@@ -47,19 +52,21 @@ io.on("connection", socket => {
     });
 
 
+    // Event for initial SDP Offer from the initiator to the receiver
     socket.on("offer", (data) => {
 
         console.log("Offer recieved")
-        // let userObj = ramdb.users.find((user) => user.identity == data.to)
+        // Look up friends UID From the socket.io SID in addressBook
         io.to(ramdb.addressBook[data.to]).emit("offer", data)
     });
 
     socket.on("offerIce", (data) => {
-
-        console.log("offerIce recieved")
+        // console.log("Ice Offered FROM: " + data.from + " TO: " + data.to)
+        // console.log("offerIce recieved")
         io.to(ramdb.addressBook[data.to]).emit("offerIce", data)
     });
 
+    // When an answer has been made to the initial offer
     socket.on("answer", (data) => {
         // console.log(data)
         console.log("answer recieved")
