@@ -15,6 +15,10 @@
     "nodemon": "^2.0.15",
     "socket.io": "^4.3.2",
     "socket.io-client": "^4.3.2",
+    "streamsaver": "^2.0.5",
     "wrtc": "^0.4.7"
+  },
+  "dependencies": {
+    "object-sizeof": "^1.6.1"
   }
 }
