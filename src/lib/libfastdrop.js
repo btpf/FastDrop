@@ -367,7 +367,29 @@ class libFastDrop {
 
 
         console.log("Offer Made")
+         pc.onicecandidate = (event) => {
+            if (event.candidate) {
+                console.log("Ice Candidate found locally")
+                console.log("--> Sending to remote peer")
+            this.socket.emit("offerIce", { to: event.from, from: this.user.uid, candidate: iceEvent.candidate })
+                // Send the candidate to the remote peer
+            } else {
+                // Taken from https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/icecandidate_event
 
+
+                // When an ICE negotiation session runs out of candidates to propose for a given RTCIceTransport, it has
+                // completed gathering for a generation of candidates. That this has occurred is indicated by an
+                // icecandidate event whose candidate string is empty ("").
+
+                // You should deliver this to the remote peer just like any standard candidate...
+                // This ensures that the remote peer is given the end-of-candidates notification as well.
+
+             this.socket.emit("offerIce", { to: event.from, from: this.user.uid, candidate: iceEvent.candidate })
+
+                console.log("All candidates found")
+                //All ICE candidates have been sent
+            }
+        }
 
         // Set remoteDescription from the remote SDP Offer
         await pc.setRemoteDescription(event.offer);
