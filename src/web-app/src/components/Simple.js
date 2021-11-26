@@ -17,7 +17,7 @@ import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 const Links = ["Friends", "Profile", "About"];
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+const NavLink = ({ children }) => (
     <Link
         px="2"
         py="1"
@@ -46,7 +46,7 @@ export default function Simple() {
                         icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>} display={{ md: "none" }}
                         onClick={isOpen ? onClose : onOpen}
                     />
-                    <HStack spacing={8} >
+
                         <HStack
                             as="nav"
                             spacing="4"
@@ -56,7 +56,6 @@ export default function Simple() {
                                 bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
                                 {link}</Button>))}
                         </HStack>
-
                         <Flex>
                             <Container justify="center" align="center">
                             <Text bgGradient={colorMode === "light" ?
@@ -65,8 +64,6 @@ export default function Simple() {
                                   bgClip="text" fontSize="3xl" fontWeight="bold">
                                 Fast Drop</Text></Container>
                         </Flex>
-                    </HStack>
-
                     <Flex>
                         <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
                             onClick={toggleColorMode} size="lg" rounded="2xl" boxShadow="sm"
