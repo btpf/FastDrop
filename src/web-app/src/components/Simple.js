@@ -1,17 +1,16 @@
-import { ReactNode } from "react";
 import {
     Box,
     Text,
     Flex,
     Link,
     Stack,
-    Container,
+    Grid,
     Button,
     HStack,
     IconButton,
     useDisclosure,
     useColorMode,
-    useColorModeValue,
+    useColorModeValue, Container,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 
@@ -26,7 +25,7 @@ const NavLink = ({ children }) => (
             textDecoration: "none",
             bg: useColorModeValue("gray.300", "gray.600"),
         }}
-        href={"#"}>
+        href="#">
         {children}
     </Link>
 );
@@ -38,38 +37,39 @@ export default function Simple() {
     return (
         <>
             <Box boxShadow="md" bg={useColorModeValue('gray.200', 'gray.900')} px={4}>
-                <Flex h={16} alignItems="center" justifyContent="space-between">
+                <Flex h="16" alignItems="center" justifyContent="space-between" >
                     <IconButton
-                        size="lg"
+                        size="lg" rounded="xl"
                         bgColor={useColorModeValue("gray.300", "gray.700")}
                         _hover={{bg: useColorModeValue("gray.400", "gray.600")}}
                         icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>} display={{ md: "none" }}
-                        onClick={isOpen ? onClose : onOpen}
-                    />
+                        onClick={isOpen ? onClose : onOpen}/>
 
-                        <HStack
-                            as="nav"
-                            spacing="4"
-                            display={{ base: "none", md: "flex" }}>
-                            {Links.map((link) => (
-                            <Button size="md" rounded="2xl" boxShadow="md" key={link}
-                                bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
-                                {link}</Button>))}
-                        </HStack>
-                        <Flex>
-                            <Container justify="center" align="center">
-                            <Text bgGradient={colorMode === "light" ?
-                                "linear(to-r, gray.600, gray.800)":
-                                "linear(to-l, gray.300, gray.200)"}
-                                  bgClip="text" fontSize="3xl" fontWeight="bold">
-                                Fast Drop</Text></Container>
-                        </Flex>
-                    <Flex>
-                        <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
-                            onClick={toggleColorMode} size="lg" rounded="2xl" boxShadow="sm"
-                            bgColor={useColorModeValue("gray.300", "gray.700")}
-                            _hover={{bg: useColorModeValue("gray.400", "gray.600")}}/>
+                    <Flex basis="25%" justify="flex-start"><HStack
+                        as="nav"
+                        spacing="4"
+                        display={{ base: "none", md: "flex" }}>
+                        {Links.map((link) => (
+                        <Button size="md" rounded="2xl" boxShadow="md" key={link}
+                            bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
+                            {link}</Button>))}
+                    </HStack></Flex>
+
+                    <Flex >
+                        <Text bgGradient={colorMode === "light" ?
+                            "linear(to-r, gray.600, gray.800)":
+                            "linear(to-l, gray.300, gray.200)"}
+                              bgClip="text" fontSize="3xl" fontWeight="bold" >
+                        Fast Drop</Text>
                     </Flex>
+
+                    <Flex basis="25%" justify="end">
+                    <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
+                        onClick={toggleColorMode} size="lg" rounded="2xl" boxShadow="sm"
+                        bgColor={useColorModeValue("gray.300", "gray.700")}
+                        _hover={{bg: useColorModeValue("gray.400", "gray.600")}}/>
+                    </Flex>
+
                 </Flex>
 
                 {isOpen ? (
