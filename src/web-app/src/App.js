@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar.js";
 import About from "./components/About.js";
 import Friends from "./components/Friends.js";
 import Profile from "./components/Profile.js";
+import User from "./components/User.js";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -13,9 +14,10 @@ function App() {
             <Navbar/>
 
             <Routes>
-                <Route path="About" element={<About/>} />
-                <Route path="Friends" element={<Friends/>} />
-                <Route path="Profile" element={<Profile/>} />
+                <Route path="about" element={<About/>} />
+                <Route path="profile" element={<Profile/>} />
+                <Route path="friends" element={<Friends/>} />
+                <Route path="/friends/:userId" element={<User/>} />
             </Routes>
 
         </ChakraProvider>
