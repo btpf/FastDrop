@@ -29,11 +29,13 @@ function About() {
             ))}
             <Text fontSize="xl" align="center" fontWeight="bold"> Using </Text>
         </VStack>
-        <HStack spacing="8">
-            <Link href="https://reactjs.org/" isEternal><IconButton icon={<FaReact/>}/></Link>
-            <Link href="https://webrtc.org/" isEternal><IconButton icon={<SiWebrtc/>} /> </Link>
-            <Link href="https://socket.io/" isEternal><IconButton icon={<SiSocketdotio/>} /></Link>
-        </HStack>
+        <Flex wrap="initial">
+            <HStack spacing="8">
+                <Link href="https://reactjs.org/" isEternal><IconButton icon={<FaReact/>}/></Link>
+                <Link href="https://webrtc.org/" isEternal><IconButton icon={<SiWebrtc/>} /> </Link>
+                <Link href="https://socket.io/" isEternal><IconButton icon={<SiSocketdotio/>} /></Link>
+            </HStack>
+        </Flex>
     </Center>
 }
 

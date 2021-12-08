@@ -51,7 +51,7 @@ function Navbar() {
                     display={{ base: "none", md: "flex" }}>
 
                     {Links.map((link) => (
-                    <Link href={link.toLowerCase()} _hover={{textDecoration: "none"}}>
+                    <Link href={`/${link.toLowerCase()}`} _hover={{textDecoration: "none"}}>
                         <Button size="md" rounded="2xl" boxShadow="md" key={link}
                             bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
                             {link}</Button>
