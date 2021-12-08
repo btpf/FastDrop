@@ -1,5 +1,5 @@
 import {
-	VStack, Text, Button, Center, Circle, useToast,
+	VStack, Text, Button, Center, Circle, useToast, Flex, Spacer, Stack,
 	HStack, useColorMode, Link, Input, InputGroup, InputRightElement
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -37,15 +37,18 @@ function Friends() {
 	}
 
 	return <Center>
-		<VStack spacing="4" pt="150px">
+		<VStack spacing="4" pt="150px" align="stretch">
 			{friends.map(friend => (
 				<Link _hover={{textDecoration: "none"}} href={`friends/user/${friend.name}`}>
 					<Button w="250px" rounded="xl" size="lg"
 						bg={colorMode === "light" ? "gray.300" : "gray.700"}>
-						<HStack spacing="2">
-						<Circle size="8px" bg={friend.status === "online" ? "green.400" : "red.500"}/>
-						<Text>{friend.name}</Text>
-						</HStack>
+
+							<Circle ml="5" size="8px" bg={friend.status === "online" ? "green.400" : "red.500"}/>
+							<Spacer/>
+						<Text mr="5" justifyContent="flex-end">{friend.name}</Text>
+
+
+
 					</Button>
 				</Link>
 			))}
