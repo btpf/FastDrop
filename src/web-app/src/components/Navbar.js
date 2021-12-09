@@ -61,11 +61,13 @@ function Navbar() {
             </Flex>
 
             <Flex >
-                <Text bgGradient={colorMode === "light" ?
+                <Link href="/" _hover={{textDecoration: "none"}}>
+                    <Text bgGradient={colorMode === "light" ?
                     "linear(to-r, gray.600, gray.800)":
                     "linear(to-l, gray.300, gray.200)"}
                       bgClip="text" fontSize="3xl" fontWeight="bold">
-                Fast Drop</Text>
+                    Fast Drop</Text>
+                </Link>
             </Flex>
 
             <Flex basis="25%" justify="end">
