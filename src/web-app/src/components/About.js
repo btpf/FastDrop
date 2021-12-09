@@ -1,6 +1,7 @@
 import { Center, Link, Spacer, Flex, IconButton,
         Text, VStack, HStack, StackDivider } from "@chakra-ui/react";
-import { GrLinkedinOption, AiFillGithub, FaReact, SiWebrtc, SiSocketdotio } from "react-icons/all"
+import { GrLinkedinOption, AiFillGithub, FaReact,
+    SiWebrtc, SiSocketdotio, SiChakraui } from "react-icons/all"
 
 
 function About() {
@@ -13,8 +14,18 @@ function About() {
             "https://github.com/Mohammad5566"]
     }
 
+    const frontEnd = {
+        "React": ["https://reactjs.org/", <FaReact/>],
+        "Chakra UI": ["https://chakra-ui.com/", <SiChakraui/>]
+    }
+    const backEnd = {
+        "WebRTC": ["https://webrtc.org/", <SiWebrtc/>],
+        "Socket IO": ["https://socket.io/", <SiSocketdotio/>]
+    }
+
     return <Center>
-        <VStack alignItems="stretch" pt="150px" divider={<StackDivider/>}>
+        <VStack spacing="8">
+        <VStack align="stretch" pt="150px" divider={<StackDivider/>}>
             <Text fontSize="xl" align="center" fontWeight="bold"> Built by </Text>
             {Object.entries(links).map(([key, value]) => (
                 <HStack justify="space-between" w="350px">
@@ -27,15 +38,34 @@ function About() {
                     </Link>
                 </HStack>
             ))}
-            <Text fontSize="xl" align="center" fontWeight="bold"> Using </Text>
+
         </VStack>
-        <Flex wrap="initial">
-            <HStack spacing="8">
-                <Link href="https://reactjs.org/" isEternal><IconButton icon={<FaReact/>}/></Link>
-                <Link href="https://webrtc.org/" isEternal><IconButton icon={<SiWebrtc/>} /> </Link>
-                <Link href="https://socket.io/" isEternal><IconButton icon={<SiSocketdotio/>} /></Link>
-            </HStack>
+
+        <Flex>
+            <VStack divider={<StackDivider/>}>
+                <Text fontSize="xl" align="center" fontWeight="bold"> Using </Text>
+                <HStack justify="space-between" w="350px">
+                <Text>Front End</Text>
+                    <HStack justify="space-between">{Object.entries(frontEnd).map(([key, value]) => (
+                        <Link href={value[0]} isExternal="true">
+                            <IconButton icon={value[1]} />
+                        </Link>
+                    ))}</HStack>
+                </HStack>
+                <HStack justify="space-between" w="350px">
+                    <Text>Back End</Text>
+                    <HStack justify="space-between">{Object.entries(backEnd).map(([key, value]) => (
+                        <Link href={value[0]} isExternal="true">
+                            <IconButton icon={value[1]} />
+                        </Link>
+                    ))}</HStack>
+                </HStack>
+            </VStack>
         </Flex>
+
+            <Link href="https://github.com/btpf/FastDrop" isExternal="true">
+                <IconButton icon={<AiFillGithub/>} /></Link>
+        </VStack>
     </Center>
 }
 

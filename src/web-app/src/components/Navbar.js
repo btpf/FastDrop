@@ -26,7 +26,7 @@ const NavLink = ({ children }) => (
             textDecoration: "none",
             bg: useColorModeValue("gray.300", "gray.600"),
         }}
-        href="#">
+        href={children.key}>
         {children}
     </Link>
 );
@@ -56,7 +56,6 @@ function Navbar() {
                             bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
                             {link}</Button>
                     </Link>))}
-
                 </HStack>
             </Flex>
 
@@ -83,8 +82,8 @@ function Navbar() {
             <Box pb="4" display={{ md: "none" }} >
                 <Stack as="nav" spacing="4">
                     {Links.map((link) => (
-                        <NavLink key={link}>{link}</NavLink>
-                    ))}
+                        <Link href={`/${link.toLowerCase()}`} _hover={{textDecoration: "none"}}>
+                            {link}</Link>))}
                 </Stack>
             </Box>
         ) : null}
