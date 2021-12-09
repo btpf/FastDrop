@@ -1,5 +1,3 @@
-import { Link as ReactLink } from "react-router-dom";
-
 import {
     Box,
     Text,
@@ -50,8 +48,8 @@ function Navbar() {
                     spacing="4"
                     display={{ base: "none", md: "flex" }}>
 
-                    {Links.map((link) => (
-                    <Link href={`/${link.toLowerCase()}`} _hover={{textDecoration: "none"}}>
+                    {Links.map((link, index) => (
+                    <Link href={`/${link.toLowerCase()}`} _hover={{textDecoration: "none"}} key={index}>
                         <Button size="md" rounded="2xl" boxShadow="md" key={link}
                             bgColor={ colorMode === "light" ? "gray.300" : "gray.700" }>
                             {link}</Button>
@@ -64,7 +62,8 @@ function Navbar() {
                     <Text bgGradient={colorMode === "light" ?
                     "linear(to-r, gray.600, gray.800)":
                     "linear(to-l, gray.300, gray.200)"}
-                      bgClip="text" fontSize="3xl" fontWeight="bold">
+                      bgClip="text" fontSize="3xl" fontWeight="bold"
+                    fontSize={{ md: "36px"}}>
                     Fast Drop</Text>
                 </Link>
             </Flex>

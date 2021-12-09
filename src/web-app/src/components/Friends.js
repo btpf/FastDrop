@@ -1,9 +1,9 @@
 import {
-	VStack, Text, Button, Center, Circle, useToast, Flex, Spacer, Stack,
-	HStack, useColorMode, Link, Input, InputGroup, InputRightElement
+	VStack, Text, Button, Center, Circle, useToast, Spacer,
+	HStack, useColorMode, Link, Input, IconButton, useColorModeValue
 } from "@chakra-ui/react";
 import { useState } from "react";
-import User from "./User";
+import { AddIcon } from "@chakra-ui/icons";
 
 function Friends() {
 	let friendsList = [{name: "Bret", status: "online"},
@@ -38,8 +38,8 @@ function Friends() {
 
 	return <Center>
 		<VStack spacing="4" pt="150px" align="stretch">
-			{friends.map(friend => (
-				<Link _hover={{textDecoration: "none"}} href={`friends/user/${friend.name}`}>
+			{friends.map((friend, index) => (
+				<Link key={index} _hover={{textDecoration: "none"}} href={`friends/user/${friend.name}`}>
 					<Button w="250px" rounded="xl" size="lg"
 						bg={colorMode === "light" ? "gray.300" : "gray.700"}>
 						<Text>{friend.name}</Text>
@@ -49,13 +49,14 @@ function Friends() {
 					</Button>
 				</Link>
 			))}
-			<InputGroup>
+
+			<HStack pt="20px" spacing="2">
 				<Input rounded="xl" placeholder="Add a Friend!"
 					   onChange={(event) => setInput(event.target.value)}>
 				</Input>
-				<InputRightElement> <Button rounded="xl" onClick={handleAddFriend}>
-					Add </Button> </InputRightElement>
-			</InputGroup>
+				<IconButton icon={<AddIcon/>} rounded="xl" onClick={handleAddFriend}
+							bgColor={useColorModeValue("gray.300", "gray.700")} />
+			</HStack>
 		</VStack>
 
 	</Center>

@@ -2,7 +2,7 @@ import {Text, useColorModeValue} from "@chakra-ui/react";
 import React, {useMemo} from "react";
 import {useDropzone} from "react-dropzone";
 
-function DropFiles({ userName }) {
+function DropFiles({ getRootProps, getInputProps, userName }) {
     const baseStyle = {
         flex: 1,
         display: "flex",
@@ -33,8 +33,8 @@ function DropFiles({ userName }) {
     };
 
     const {
-        getRootProps,
-        getInputProps,
+        // getRootProps,
+        // getInputProps,
         isDragActive,
         isDragAccept,
         isDragReject
