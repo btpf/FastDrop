@@ -84,7 +84,7 @@ class libFastDrop {
 
         // UInt8 Byte Representation = 10 Bytes
         // 100 seems to work
-        const chunkSize = 256 * 1024 * 1024; //16KB Chunk size
+        const chunkSize = 256 * 1024 ; //256KB Chunk size - Chromium Max
         const lowWaterMark = chunkSize; // A single chunk
         const highWaterMark = Math.max(chunkSize * 8, 1048576); // 8 chunks or at least 1 MiB
 
@@ -99,13 +99,6 @@ class libFastDrop {
         let rWindow = Math.min(chunkSize, fileSize)
         let startTime
         console.log("Before Loop")
-        // while(currentChunk++ != totalChunks){
-        //   console.log("LOIP")
-        //   var buffer = await file.slice(lWindow, rWindow).arrayBuffer();
-        //   console.log(new Int8Array(buffer))
-        //   lWindow = rWindow
-        //   rWindow = Math.min(rWindow + chunkSize, fileSize)
-        // }
 
         let fileInfo = {chunks:totalChunks, currentChunk:0, fileName: file.name, size:fileSize}
         // let fileInfo = { chunks: totalChunks, currentChunk: 0, fileName: "test.txt", size: fileSize }
@@ -128,77 +121,7 @@ class libFastDrop {
             let buffer = null
             let nextArray = null
 
-            // dc.send(dataString)
-
-            // Used to delay one event
-            // let timeoutHandle = null;
-            // let sendData = () => {
-
-            //     if (timeoutHandle !== null) {
-            //         clearTimeout(timeoutHandle);
-            //         timeoutHandle = null;
-            //     }
-
-            //     let bufferedAmount = dc.bufferedAmount;
-            //     while (fileInfo.currentChunk++ <= fileInfo.chunks) {
-            //         // dc.send(chunks[fileInfo.currentChunk++])
-            //         // buffer = await file.slice(lWindow, rWindow).arrayBuffer();
-            //         // nextArray = new Int8Array(buffer)
-            //         console.log("Sending Buffer")
-            //         console.log("Buffer Amount: " + dc.bufferedAmount)
-            //         // Broken on purpose to speed test
-            //         // dc.send(nextArray)
-            //         dc.send(dataString)
-            //         lWindow = rWindow
-            //         rWindow = Math.min(rWindow + chunkSize, fileSize)
-
-
-            //         // Calculate Buffer Queue
-            //         bufferedAmount += chunkSize;
-
-
-            //         // Pause sending if we reach the high water mark
-            //         // In other words, once the buffer reached as much as we would like to store in ram
-            //         if (bufferedAmount >= highWaterMark) {
-            //             // This is a workaround due to the bug that all browsers are incorrectly calculating the
-            //             // amount of buffered data. Therefore, the 'bufferedamountlow' event would not fire.
-
-            //             // If the bufferAmount value found in the datachannel
-            //             // is less than the minimum we would like to have stored in the buffer
-            //             if (dc.bufferedAmount < lowWaterMark) {
-            //                 timeoutHandle = setTimeout(() => sendData(), 0);
-            //             }
-            //             console.log(`Paused sending, buffered amount: ${bufferedAmount} (announced: ${dc.bufferedAmount})`);
-            //             break;
-            //         }
-
-            //     }
-            //     if (fileInfo.currentChunk >= fileInfo.chunks) {
-            //         console.log("Time Taken: " + (performance.now() - startTime))
-            //     }
-
-            // }
-
-            // V2 CODE
-            // dc.onopen = (e) => {
-            //     console.log("OPENED SERVER SIDE")
-
-            //     // dc.send(dataString)
-            //     startTime = performance.now()
-            //     sendData()
-            // }
-
-            // // In the case the buffer threshold is bet
-            // dc.onbufferedamountlow = async (e) => {
-            //     console.log("Buffer Threshold Low")
-            //     sendData();
-            // };
-
             let sendData = async () => {
-                // if(fileInfo.currentChunk == 0){
-                //    buffer = await file.slice(lWindow, rWindow).arrayBuffer();
-                //    nextArray = new Int8Array(buffer)
-                // }
 
                 if (fileInfo.currentChunk++ != fileInfo.chunks) {
                     // dc.send(chunks[fileInfo.currentChunk++])
@@ -367,8 +290,8 @@ class libFastDrop {
 
 
         console.log("Offer Made")
-         pc.onicecandidate = (event) => {
-            if (event.candidate) {
+         pc.onicecandidate = (iceEvent) => {
+            if (iceEvent.candidate) {
                 console.log("Ice Candidate found locally")
                 console.log("--> Sending to remote peer")
             this.socket.emit("offerIce", { to: event.from, from: this.user.uid, candidate: iceEvent.candidate })
@@ -496,5 +419,31 @@ class libFastDrop {
 
 }
 
+class TestClass{
+    constructor(number){
+        this.number = number
+    }
+    getNumber(){
+        return this.number++
+    }
+}
+
+class Singleton{
+
+    constructor() {
+        this.instance = null
+    }
+
+    getInstance(config){
+        if(this.instance == null){
+            this.instance = new libFastDrop(config)
+            // this.instance = new TestClass(5)
+        }
+        return this.instance
+    }
+}
+
 // module.exports = libFastDrop
-export default libFastDrop
+// export default libFastDrop
+
+export default new Singleton()
