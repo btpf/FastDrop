@@ -28,7 +28,7 @@ import libFastDrop from './libfastdrop';
 // const userID = process.env.USER;
 
 const friends = {
-  reciever: ["sender"],
+  receiver: ["sender"],
   sender: ["receiver"]
 }
 
