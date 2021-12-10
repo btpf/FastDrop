@@ -12,6 +12,21 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
+import libFastDrop from '../../../lib/libfastdrop'
+
+const friends = {
+    receiver: ["sender"],
+    sender: ["receiver"]
+  }
+
+const user = {
+    alias: "receiver",
+    uid: "receiver",
+    secret: "TODO"
+  }
+
+  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
+
 
 import libFastDrop from "/home/mohammad/FastDrop/src/lib/libfastdrop.js";
 
