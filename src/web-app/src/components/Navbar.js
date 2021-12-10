@@ -35,14 +35,15 @@ function Navbar() {
 
     return <Box boxShadow="md" bg={useColorModeValue('gray.200', 'gray.900')} px={4}>
         <Flex h="16" alignItems="center" justifyContent="space-between" >
+        <Flex display={{ base: "flex", md: "none" }} basis="25%" justify="flex-start">
             <IconButton
                 size="lg" rounded="xl"
                 bgColor={useColorModeValue("gray.300", "gray.700")}
                 _hover={{bg: useColorModeValue("gray.400", "gray.600")}}
                 icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>} display={{ md: "none" }}
                 onClick={isOpen ? onClose : onOpen}/>
-
-            <Flex basis="25%" justify="flex-start">
+</Flex>
+            <Flex display={{ base: "none", md: "flex" }} basis="25%" justify="flex-start">
                 <HStack
                     as="nav"
                     spacing="4"
@@ -63,7 +64,7 @@ function Navbar() {
                     "linear(to-r, gray.600, gray.800)":
                     "linear(to-l, gray.300, gray.200)"}
                       bgClip="text" fontSize="3xl" fontWeight="bold"
-                    fontSize={{ md: "36px"}}>
+                    fontSize={{ md: "36px", base: "25px"}}>
                     Fast Drop</Text>
                 </Link>
             </Flex>
