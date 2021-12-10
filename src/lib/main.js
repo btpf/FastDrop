@@ -76,6 +76,8 @@ const friends = {
 function test() {
   console.log("TESTED")
 }
+
+
 let user = null
 function sender(file) {
   user = {
@@ -83,7 +85,7 @@ function sender(file) {
     uid: "sender",
     secret: "TODO"
   }
-  let fastdrop = new libFastDrop({ user, friends: friends[user.uid] })
+  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
   setTimeout(() => fastdrop.sendBytes("receiver", file), 3000)
 }
 
@@ -93,7 +95,7 @@ function senderTesting() {
     uid: "sender",
     secret: "TODO"
   }
-  let fastdrop = new libFastDrop({ user, friends: friends[user.uid] })
+  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
   setTimeout(() => fastdrop.sendBytes("receiver", null), 5000)
 }
 
@@ -104,7 +106,7 @@ function receiver() {
     secret: "TODO"
   }
 
-  let fastdrop = new libFastDrop({ user, friends: friends[user.uid] })
+  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
 }
 
 async function readFile(file){
@@ -134,7 +136,7 @@ async function sendText(){
     uid: "sender",
     secret: "TODO"
   }
-  let fastdrop = new libFastDrop({ user, friends: friends[user.uid] })
+  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
   fastdrop.sendText("receiver", "Hello World")
 }
 
