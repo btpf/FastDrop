@@ -1,22 +1,17 @@
 {
-  "name": "client",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "my-vue-app",
+  "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./client.js",
-    "reciever": "USER=receiver nodemon ./tests/test.js",
-    "sender": "USER=sender nodemon ./tests/test.js"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.15",
-    "socket.io": "^4.3.2",
+    "@originjs/vite-plugin-commonjs": "^1.0.1",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "socket.io-client": "^4.3.2",
     "streamsaver": "^2.0.5",
-    "wrtc": "^0.4.7"
+    "vite": "^2.6.4"
   },
   "dependencies": {
     "object-sizeof": "^1.6.1"

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <h1>Library Testing</h1>
+    <button onclick="receiver()">Connect As Receiver</button>
+    <button onclick="senderTesting()">Connect As Sender</button>
+    <button onclick="readFile()">ReadFile</button>
+    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+      <p>Drag one or more files to this Drop Zone ...</p>
+    </div>
+    <div id="app"></div>
+    <h3> --- Debug -- </h3>
+    <div id="debug"></div>
+    <script type="module" src="/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web-streams-polyfill@2.0.2/dist/ponyfill.min.js"></script>
+
+    <script>
+      function dragOverHandler(ev) {
+  console.log('File(s) in drop zone');
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+  // for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+  //     console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+  //   }
+}
+async function dropHandler(ev) {
+  ev.preventDefault();
+  
+  let file = ev.dataTransfer.files[0]
+  console.log('File(s) dropped');
+  sender(file)
+  // readFile(file)
+  // const chunkSize = 1024 * 64; //16KB Chunk size
+  // var fileSize = file.size;
+  // let totalChunks = Math.ceil(fileSize/chunkSize)
+  // let currentChunk = 0
+  // // Prevent default behavior (Prevent file from being opened)
+  
+
+  // let lWindow = 0
+  // let rWindow = Math.min(chunkSize, fileSize)
+  // var buffer = await file.slice(lWindow, rWindow).arrayBuffer();
+  // console.log(new Int8Array(buffer))
+
+  // console.log("Before Loop")
+  // while(currentChunk++ != totalChunks){
+  //   console.log("LOIP")
+  //   var buffer = await file.slice(lWindow, rWindow).arrayBuffer();
+  //   console.log(new Int8Array(buffer))
+  //   lWindow = rWindow
+  //   rWindow = Math.min(rWindow + chunkSize, fileSize)
+  // }
+
+    
+
+}
+    </script>
+  </body>
+</html>
