@@ -1,8 +1,9 @@
-import { Center, Text, Button, VStack, Image, Link, useColorModeValue } from '@chakra-ui/react';
+import { Center, Text, Button, VStack, Image, useColorModeValue } from '@chakra-ui/react';
 import { CloseIcon } from "@chakra-ui/icons";
 import { useMatch } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import DropFiles from "./DropFiles.js";
+import { Link } from "react-router-dom";
 
 function User({ friendsList, setFriends }) {
     const match = useMatch("/friends/user/:userId");
@@ -39,7 +40,7 @@ function User({ friendsList, setFriends }) {
             </Dropzone>
 
             <VStack pt="120px">
-                <Link href="/friends" _hover={{textDecoration: "none"}}>
+                <Link to="/friends" _hover={{textDecoration: "none"}} key="0">
                     <Button rounded="3xl" shadow="md" _hover={{bg: "gray.600"}}
                     bg={useColorModeValue("red.500", "red.700")}
                     color={useColorModeValue("gray.100", "gray.300")}
@@ -52,7 +53,6 @@ function User({ friendsList, setFriends }) {
             </VStack>
         </VStack>
     </Center>
-
 }
 
 export default User;

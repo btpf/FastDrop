@@ -1,12 +1,13 @@
 import {
 	VStack, Text, Button, Center, Circle, useToast, Spacer,
-	HStack, useColorMode, Link, Input, IconButton, useColorModeValue
+	HStack, useColorMode, Input, IconButton, useColorModeValue
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { AddIcon } from "@chakra-ui/icons";
 
 function Friends() {
-	let friendsList = [{name: "Bret", status: "online"},
+	let friendsList = [
 		{ name: "Richard", status: "online"},
 		{ name: "Mohammad", status: "offline"}]
 
@@ -27,19 +28,14 @@ function Friends() {
 			})
 		}
 		else {
-			const newFriend = {name: input, status: "offline"}
-			const newFriends = [];
-			for (let f of friends) newFriends.push(f);
-			newFriends.push(newFriend);
-			setFriends(newFriends);
-			setInput("");
+			setFriends([...friends, {name: "Bret", status: "online"}]);
 		}
 	}
 
 	return <Center>
 		<VStack spacing="4" pt="150px" align="stretch">
 			{friends.map((friend, index) => (
-				<Link key={index} _hover={{textDecoration: "none"}} href={`friends/user/${friend.name}`}>
+				<Link key={index} _hover={{textDecoration: "none"}} to={`/friends/user/${friend.name}`}>
 					<Button w="250px" rounded="xl" size="lg"
 						bg={colorMode === "light" ? "gray.300" : "gray.700"}>
 						<Text>{friend.name}</Text>
