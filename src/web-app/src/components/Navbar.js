@@ -28,23 +28,6 @@ const user = {
   let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
 
 
-import libFastDrop from "/home/mohammad/FastDrop/src/lib/libfastdrop.js";
-
-const friends = {
-    receiver: ["sender"],
-    sender: ["receiver"]
-}
-
-const user = {
-    alias: "sender",
-    uid: "sender",
-    secret: "TODO"
-}
-let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
-fastdrop.sendText("receiver", "Hello World")
-
-
-
 
 const Links = ["Friends", "Profile", "About"];
 
