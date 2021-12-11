@@ -5,6 +5,10 @@ import Dropzone from "react-dropzone";
 import DropFiles from "./DropFiles.js";
 import { Link } from "react-router-dom";
 
+import libFastDrop from '../../../lib/libfastdrop';
+
+let fastdrop = libFastDrop.getInstance();
+
 function User({ friendsList, setFriends }) {
     const match = useMatch("/friends/user/:userId");
     const userName = match.params.userId;
@@ -31,12 +35,17 @@ function User({ friendsList, setFriends }) {
                    src={useColorModeValue("https://i.ibb.co/Fnjh4v2/qr-code-1.png",
                                         "https://i.ibb.co/VL7kpbS/qr-code.png")}/>
 
-            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+            <Dropzone onDrop={acceptedFiles => {
+                if (acceptedFiles.length > 1) {
+                    /* TODO: Add a toast warning*/
+                    return;
+                }
+                fastdrop.sendBytes("receiver", acceptedFiles[0]);
+            }}>
                 {( { getRootProps, getInputProps } ) => (
                     <DropFiles getRootProps={getRootProps} getInputProps={getInputProps}
                                 userName={userName}/>
                 )}
-
             </Dropzone>
 
             <VStack pt="120px">

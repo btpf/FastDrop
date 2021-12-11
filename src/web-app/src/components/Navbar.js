@@ -14,19 +14,37 @@ import { Link } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import libFastDrop from '../../../lib/libfastdrop'
 
+import { signalingServer } from "../secrets";
+
 const friends = {
-    receiver: ["sender"],
+    receiver: ["receiver"],
     sender: ["receiver"]
-  }
+}
 
 const user = {
-    alias: "receiver",
-    uid: "receiver",
+    alias: "sender",
+    uid: "sender",
     secret: "TODO"
-  }
+}
 
-  let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
-
+let fastdrop = libFastDrop.getInstance({
+    user,
+    friends: friends[user.uid],
+    config: {
+        socketConfig: signalingServer,
+        RTCPeerConnectionConfig: {
+            mandatory: {
+                // offerToReceiveAudio: true
+            },
+            iceServers: [
+                {
+                    urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
+                },
+            ],
+            iceCandidatePoolSize: 10,
+        }
+    }
+})
 
 
 const Links = ["Friends", "Profile", "About"];
@@ -48,7 +66,7 @@ function Navbar() {
         <Flex display={{ base: "none", md: "flex" }} basis="25%" justify="flex-start">
             <HStack
                 as="nav"
-                spacing="4"
+                spacing="2"
                 display={{ base: "none", md: "flex" }}>
 
                 {Links.map((link, index) => (
