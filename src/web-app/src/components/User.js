@@ -1,9 +1,10 @@
 import { Center, Text, Button, VStack, Image, useColorModeValue } from '@chakra-ui/react';
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, LockIcon, UnlockIcon } from "@chakra-ui/icons";
 import { useMatch } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import DropFiles from "./DropFiles.js";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import libFastDrop from '../../../lib/libfastdrop';
 
@@ -27,6 +28,17 @@ function User({ friendsList, setFriends }) {
         console.log(friendsList);
     }
 
+    const [ encryptionText, setEncryptionText ] = useState("Encrypted");
+
+    function handleEncryption() {
+        if (encryptionText === "Encrypted") {
+            setEncryptionText("Unencrypted");
+        }
+        else {
+            setEncryptionText("Encrypted");
+        }
+    }
+
     return <Center>
         <VStack pt="50px" spacing="8">
             <Text fontWeight="bold" fontSize="26px"
@@ -34,6 +46,14 @@ function User({ friendsList, setFriends }) {
             <Image shadow="lg" h="13%" w="13%" rounded="2xl" alt="qr-code"
                    src={useColorModeValue("https://i.ibb.co/Fnjh4v2/qr-code-1.png",
                                         "https://i.ibb.co/VL7kpbS/qr-code.png")}/>
+
+            <Button rounded="3xl" onClick={handleEncryption} w="150px"
+                    bgColor={useColorModeValue("gray.200")}
+                    color={ encryptionText === "Encrypted" ? "green.400" : "red.400" }>
+                <Text pr="2"> {encryptionText} </Text>
+                { encryptionText === "Encrypted" ? <LockIcon/> : <UnlockIcon/> }
+            </Button>
+
 
             <Dropzone onDrop={acceptedFiles => {
                 if (acceptedFiles.length > 1) {
@@ -48,18 +68,6 @@ function User({ friendsList, setFriends }) {
                 )}
             </Dropzone>
 
-            <VStack pt="120px">
-                <Link to="/friends" _hover={{textDecoration: "none"}} key="0">
-                    <Button rounded="3xl" shadow="md" _hover={{bg: "gray.600"}}
-                    bg={useColorModeValue("red.500", "red.700")}
-                    color={useColorModeValue("gray.100", "gray.300")}
-                    onClick={deleteFriend}>
-                    <Text pl="3" color="gray.200">
-                        Delete Friend </Text>
-                    <CloseIcon w="30%" h="30%"/>
-                </Button>
-                </Link>
-            </VStack>
         </VStack>
     </Center>
 }
