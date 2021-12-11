@@ -50,6 +50,7 @@ class libFastDrop {
         
         // Callbacks
         this.fileDetailsUpdate = ()=>{}
+        this.onStatusChange = ()=>{}
 
         this.#initializeSocketIO(config.socketConfig, config.RTCPeerConnectionConfig)
 
@@ -257,7 +258,7 @@ class libFastDrop {
         socket.emit("identify", { uid: this.user.uid, friends: this.friends })
 
         // When the server sends a statusChange event of a friend
-        socket.on("statusChange", this.#onStatusChange)
+        socket.on("statusChange",(event) => this.#onStatusChange(event))
 
         // When the initial SDP offer is recieved by a friend
         socket.on("offer", (event) => this.#onOffer(event))
@@ -385,6 +386,8 @@ class libFastDrop {
 
     async #onStatusChange(event) {
         console.log(event)
+        // console.log(this)
+        this.onStatusChange(event)
     }
 
     async #onAnswer(event) {
