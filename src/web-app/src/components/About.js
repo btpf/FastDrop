@@ -29,7 +29,7 @@ function About() {
 
     return <Center>
         <VStack spacing="8" w="200px">
-        <VStack align="stretch" pt="150px" divider={<StackDivider/>}>
+        <VStack align="stretch" pt="100px" divider={<StackDivider/>}>
             <Text fontSize="xl" align="center" fontWeight="bold"> Built by </Text>
             {Object.entries(links).map(([key, value]) => (
                 <HStack justify="space-between" w="350px">

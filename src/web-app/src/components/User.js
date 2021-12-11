@@ -28,15 +28,10 @@ function User({ friendsList, setFriends }) {
         console.log(friendsList);
     }
 
-    const [ encryptionText, setEncryptionText ] = useState("Encrypted");
+    const [ encryptionText, setEncryptionText ] = useState(0);
 
     function handleEncryption() {
-        if (encryptionText === "Encrypted") {
-            setEncryptionText("Unencrypted");
-        }
-        else {
-            setEncryptionText("Encrypted");
-        }
+        setEncryptionText(!encryptionText);
     }
 
     return <Center>
@@ -49,8 +44,8 @@ function User({ friendsList, setFriends }) {
 
             <Button rounded="3xl" onClick={handleEncryption} w="150px"
                     bgColor={useColorModeValue("gray.200")}
-                    color={ encryptionText === "Encrypted" ? "green.400" : "red.400" }>
-                <Text pr="2"> {encryptionText} </Text>
+                    color={ !encryptionText ? "green.400" : "red.400" }>
+                <Text pr="2"> {encryptionText ? "Unencrypted" : "Encrypted" } </Text>
                 { encryptionText === "Encrypted" ? <LockIcon/> : <UnlockIcon/> }
             </Button>
 

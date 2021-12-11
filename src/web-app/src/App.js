@@ -9,6 +9,9 @@ import Home from "./components/Home.js";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import libFastDrop from '../../lib/libfastdrop'
+
+const lib = libFastDrop.getInstance();
 
 function App() {
     let friendsList = [
@@ -17,6 +20,7 @@ function App() {
         { name: "Mohammad", status: "offline" }
     ]
 
+    const [ files, setFiles ] = useState(lib.getFileTransfers());
     const [ friends, setFriends ] = useState(friendsList);
 
     return <BrowserRouter>
@@ -26,7 +30,7 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<Home/>} />
                 <Route path="about" element={<About/>} />
-                <Route path="profile" element={<Profile/>} />
+                <Route path="profile" element={<Profile files={files}/>} />
                 <Route path="friends" element={<Friends/>} />
                 <Route path="/friends/user/:userId" element={<User
                     friendsList={friendsList} setFriends={setFriends}/>} />
