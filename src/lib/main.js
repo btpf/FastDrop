@@ -111,6 +111,9 @@ function receiver() {
     console.log("Callback File Transfers:")
     console.log(files)
   }
+  fastdrop.onStatusChange = (event)=>{
+    console.log(event)
+  }
 }
 
 async function readFile(file){

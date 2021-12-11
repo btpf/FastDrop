@@ -50,6 +50,7 @@ class libFastDrop {
         
         // Callbacks
         this.fileDetailsUpdate = ()=>{}
+        this.onStatusChange = ()=>{}
 
         this.#initializeSocketIO(config.socketConfig, config.RTCPeerConnectionConfig)
 
@@ -123,7 +124,6 @@ class libFastDrop {
             dc.binaryType = "arraybuffer";
             // chunkSize - 1 seems to work
             dc.bufferedAmountLowThreshold = chunkSize - 1;
-            // dc.send("HI")
             // start sending data chunks here.
             // Increment chunk on each message back
 
@@ -131,29 +131,25 @@ class libFastDrop {
             let nextArray = null
 
             let sendData = async () => {
-
-                if (fileInfo.currentChunk++ != fileInfo.chunks) {
-                    // dc.send(chunks[fileInfo.currentChunk++])
-                    console.log("Sending Buffer")
-                    console.log("Buffer Amount: " + dc.bufferedAmount)
+                fileInfo.currentChunk++
+                // if (fileInfo.currentChunk++ != fileInfo.chunks) {
+                    // console.log("Sending Buffer")
+                    // console.log("Buffer Amount: " + dc.bufferedAmount)
                     buffer = await file.slice(lWindow, rWindow).arrayBuffer();
                     nextArray = new Int8Array(buffer)
-                    console.log(nextArray)
+                    // console.log(nextArray)
                     dc.send(nextArray)
                     lWindow = rWindow
                     rWindow = Math.min(rWindow + chunkSize, fileSize)
                     console.log("Current Chunk: " + fileInfo.currentChunk + " Total Chunks: " + fileInfo.chunks)
-                } else {
-                    console.log("Finished on sender side")
-                    console.log("Time Taken: " + (performance.now() - startTime))
-                    return;
-                }
+                // } 
+                this.fileDetailsUpdate(this.files)
                 if(fileInfo.currentChunk >= fileInfo.chunks){
                     console.log("Finished on sender side")
                     console.log("Time Taken: " + (performance.now() - startTime))
                     return;
                 }
-                this.fileDetailsUpdate(this.files)
+
             }
             // V1 CODE
             dc.onopen = (e) => {
@@ -170,27 +166,6 @@ class libFastDrop {
                 console.log("Buffer Threshold Low")
                sendData()
             };
-
-
-
-            // V3 CODE
-
-            dc.onmessage = async (e) => {
-                // if(fileInfo.currentChunk++ != fileInfo.chunks){
-                //         // dc.send(chunks[fileInfo.currentChunk++])
-                //         console.log("Sending Buffer")
-                //         console.log("Buffer Amount: " + dc.bufferedAmount)
-                //         dc.send(nextArray)
-                //         lWindow = rWindow
-                //         rWindow = Math.min(rWindow + chunkSize, fileSize)
-                //         buffer = await file.slice(lWindow, rWindow).arrayBuffer();
-                //         nextArray = new Int8Array(buffer)
-                // }else{
-                //     console.log("Finished on sender side")
-                // }
-                // console.log("New Message: " + e.data)
-
-            }
 
             dc.onerror = (e) => {
                 console.log("ERROR: ")
@@ -283,7 +258,7 @@ class libFastDrop {
         socket.emit("identify", { uid: this.user.uid, friends: this.friends })
 
         // When the server sends a statusChange event of a friend
-        socket.on("statusChange", this.#onStatusChange)
+        socket.on("statusChange",(event) => this.#onStatusChange(event))
 
         // When the initial SDP offer is recieved by a friend
         socket.on("offer", (event) => this.#onOffer(event))
@@ -355,21 +330,14 @@ class libFastDrop {
                 const fileStream = streamSaver.createWriteStream(pc.config.fileInfo.fileName, { size: pc.config.fileInfo.size })
                 const writer = fileStream.getWriter()
                 dc.onmessage = async (e) => {
-                    // console.log("Array Recieve")
-                    console.log("RECIEVED PART")
-                    console.log(new Uint8Array(e.data))
+                    // console.log("RECIEVED PART")
+                    // console.log(new Uint8Array(e.data))
 
-                    // completeMessage += decoder.decode(e.data)
-                        // console.log(pc.config.fileInfo.currentChunk/pc.config.fileInfo.chunks)
                         pc.config.fileInfo.currentChunk++
-                        console.log("Percent: " + (pc.config.fileInfo.currentChunk / pc.config.fileInfo.chunks) * 100)
+                        // console.log("Percent: " + (pc.config.fileInfo.currentChunk / pc.config.fileInfo.chunks) * 100)
                         writer.write(new Uint8Array(e.data))
 
-                        // console.log("BufferAmount: " + dc.bufferedAmount)
-                        // let currentChunk = new Uint8Array(1)
-                        // let currentChunk = encoder.encode(pc.config.fileInfo.currentChunk);
-                        // dc.send(currentChunk)
-                        console.log("Current Chunk: " + pc.config.fileInfo.currentChunk + " Total Chunks: " + pc.config.fileInfo.chunks)
+                        // console.log("Current Chunk: " + pc.config.fileInfo.currentChunk + " Total Chunks: " + pc.config.fileInfo.chunks)
                         if(pc.config.fileInfo.currentChunk == pc.config.fileInfo.chunks){
                             writer.close()
                             // writer.close()
@@ -418,6 +386,8 @@ class libFastDrop {
 
     async #onStatusChange(event) {
         console.log(event)
+        // console.log(this)
+        this.onStatusChange(event)
     }
 
     async #onAnswer(event) {
