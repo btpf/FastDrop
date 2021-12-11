@@ -1,27 +1,36 @@
+import { useState } from "react";
 import {
     Center, Text, useColorModeValue,
-    HStack, Progress, Button
+    VStack, Progress, Button
 } from "@chakra-ui/react";
-import { useState } from "react";
+
+import libFastDrop from '../../../lib/libfastdrop'
+
+const lib = libFastDrop.getInstance();
 
 function Home( { acceptedFiles }) {
-    const [ curVal, setVal ] = useState(0);
+    const [ progressVal, setProgressVal ] = useState(0);
+
+    lib.fileDetailsUpdate = (files) => {
+        console.log(files);
+    }
 
     function updateValue() {
-        setVal(curVal + 1);
+        setProgressVal(progressVal + 1);
     }
 
     return <Center>
-        <HStack pt="150px">
+        <VStack pt="150px">
             <Text fontWeight="bold" fontSize="26px"
                 color={useColorModeValue("gray.600", "gray.300")}>
                 Waiting for files...
             </Text>
 
             <Button onClick={updateValue}> Test </Button>
-            <Progress value={curVal} color="gray.100" rounded="2xl"/>
 
-        </HStack>
+            <Progress value={progressVal} w="500px" h="10px" rounded="2xl"/>
+        </VStack>
+
     </Center>
 }
 
