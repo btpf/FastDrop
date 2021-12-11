@@ -27,7 +27,8 @@ function Home() {
                 {files.length === 0 ? "Waiting for files..." : "Files Shared"}
             </Text>
 
-            <Box rounded="lg" p="50px" bgColor={useColorModeValue("gray.300", "gray.700")}>
+            <Box rounded="lg" p="50px" bgColor={useColorModeValue("gray.300", "gray.700")}
+                display={ files.length === 0 ? "none" : "block"}>
                 <VStack divider={<StackDivider/>} spacing="8">
                     {files.map((f, index) => (
                         <HStack key={index} w="700px" justify="space-between">
