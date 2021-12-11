@@ -41,13 +41,14 @@ class libFastDrop {
         this.sessions = {}
 
         this.user = user
-        this.friends = friends
+        this.friends = friends.map((friend)=>{return {uid:friend, status:"offline"}})
+
         // Address of signaling server
         this.socketConfig = config.socketConfig
         // WebRTC Peer Connection Configuration
         this.RTCPeerConnectionConfig = config.RTCPeerConnectionConfig
         this.files = []
-        
+
         // Callbacks
         this.fileDetailsUpdate = ()=>{}
         this.onStatusChange = ()=>{}
@@ -55,7 +56,9 @@ class libFastDrop {
         this.#initializeSocketIO(config.socketConfig, config.RTCPeerConnectionConfig)
 
     }
-
+    getFriends(){
+        return this.friends
+    }
     sendText(uid, text) {
         const config = { type: "text" }
         // Opens connection with UID
@@ -183,7 +186,7 @@ class libFastDrop {
     }
 
     serializeConfig() {
-        return { user: this.user, friends: this.friends, config: { socketConfig: this.socketConfig, RTCPeerConnectionConfig: this.RTCPeerConnectionConfig } }
+        return { user: this.user, friends: this.friends.map((item)=>{return item.uid}), config: { socketConfig: this.socketConfig, RTCPeerConnectionConfig: this.RTCPeerConnectionConfig } }
     }
 
     // Opens a peer connection with a friend
@@ -255,7 +258,7 @@ class libFastDrop {
         this.socket = socket
 
         // Send Identification to server
-        socket.emit("identify", { uid: this.user.uid, friends: this.friends })
+        socket.emit("identify", { uid: this.user.uid, friends: this.friends.map((item)=>{return item.uid}) })
 
         // When the server sends a statusChange event of a friend
         socket.on("statusChange",(event) => this.#onStatusChange(event))
@@ -386,8 +389,10 @@ class libFastDrop {
 
     async #onStatusChange(event) {
         console.log(event)
-        // console.log(this)
-        this.onStatusChange(event)
+        let friend = this.friends.find((item)=>item.uid == event.uid)
+        friend.status = event.status
+        
+        this.onStatusChange(this.friends)
     }
 
     async #onAnswer(event) {
