@@ -46,7 +46,6 @@ let fastdrop = libFastDrop.getInstance({
     }
 })
 
-
 const Links = ["Friends", "Profile", "About"];
 
 function Navbar() {
