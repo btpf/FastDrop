@@ -46,7 +46,10 @@ class libFastDrop {
         this.socketConfig = config.socketConfig
         // WebRTC Peer Connection Configuration
         this.RTCPeerConnectionConfig = config.RTCPeerConnectionConfig
-
+        this.files = []
+        
+        // Callbacks
+        this.fileDetailsUpdate = ()=>{}
 
         this.#initializeSocketIO(config.socketConfig, config.RTCPeerConnectionConfig)
 
@@ -79,7 +82,9 @@ class libFastDrop {
         })
 
     }
-
+    getFileTransfers(){
+        return this.files
+    }
     sendBytes(uid, file) {
 
         // UInt8 Byte Representation = 10 Bytes
@@ -100,7 +105,10 @@ class libFastDrop {
         let startTime
         console.log("Before Loop")
 
+
+
         let fileInfo = {chunks:totalChunks, currentChunk:0, fileName: file.name, size:fileSize}
+        this.files.add(fileInfo)
         // let fileInfo = { chunks: totalChunks, currentChunk: 0, fileName: "test.txt", size: fileSize }
         const config = { type: "bytestream", fileInfo }
         this.openConnection(uid, config, async (e) => {
@@ -144,6 +152,7 @@ class libFastDrop {
                     console.log("Time Taken: " + (performance.now() - startTime))
                     return;
                 }
+                this.fileDetailsUpdate(this.files)
             }
             // V1 CODE
             dc.onopen = (e) => {
@@ -325,6 +334,9 @@ class libFastDrop {
                 dc.onmessage = (e) => {
                     console.log("Config Recieved: " + e.data)
                     pc.config = JSON.parse(e.data)
+                    if(pc.config.fileInfo){
+                        this.files.add(fileInfo)
+                    }
                     dc.send("ready")
                 }
             }
@@ -363,6 +375,7 @@ class libFastDrop {
                             // Used simply to signal complete on server side
                             dc.send("Transfer Complete")
                         }
+                        this.fileDetailsUpdate(this.files)
                     
                 }
                 dc.onerror = (e) => {
