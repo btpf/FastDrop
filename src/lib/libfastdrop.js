@@ -108,7 +108,8 @@ class libFastDrop {
 
 
         let fileInfo = {chunks:totalChunks, currentChunk:0, fileName: file.name, size:fileSize}
-        this.files.add(fileInfo)
+        this.files.push(fileInfo)
+        this.fileDetailsUpdate(this.files)
         // let fileInfo = { chunks: totalChunks, currentChunk: 0, fileName: "test.txt", size: fileSize }
         const config = { type: "bytestream", fileInfo }
         this.openConnection(uid, config, async (e) => {
@@ -334,8 +335,10 @@ class libFastDrop {
                 dc.onmessage = (e) => {
                     console.log("Config Recieved: " + e.data)
                     pc.config = JSON.parse(e.data)
-                    if(pc.config.fileInfo){
-                        this.files.add(fileInfo)
+                    console.log(pc.config)
+                    if('fileInfo' in pc.config){
+                        this.files.push(pc.config.fileInfo)
+                        this.fileDetailsUpdate(this.files)
                     }
                     dc.send("ready")
                 }
