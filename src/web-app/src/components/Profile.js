@@ -1,6 +1,6 @@
 import { Button, Center, Image, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 
-function Profile() {
+function Profile( { files } ) {
     return <Center>
         <VStack pt="50px" spacing="8">
             <Text fontWeight="bold" fontSize="26px"
@@ -11,9 +11,10 @@ function Profile() {
 
             <VStack pt="40px" spacing="4">
                 <Text fontSize="xl" align="center" fontWeight="bold"> File Sharing History </Text>
-                <Button rounded="2xl" w="200px"> File 1 </Button>
-                <Button rounded="2xl" w="200px"> File 2 </Button>
-                <Button rounded="2xl" w="200px"> File 3 </Button>
+                {
+                    files.map((f, index) => (
+                        <Button> {f.fileName} </Button>
+                    ))}
             </VStack>
         </VStack>
     </Center>
