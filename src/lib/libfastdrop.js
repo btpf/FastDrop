@@ -389,10 +389,7 @@ class libFastDrop {
 
     async #onStatusChange(event) {
         console.log(event)
-        let friend = this.friends.find((item)=>item.uid == event.uid)
-        friend.status = event.status
-        
-        this.onStatusChange(this.friends)
+        this.onStatusChange(event)
     }
 
     async #onAnswer(event) {
