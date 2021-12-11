@@ -1,27 +1,41 @@
+import { useState, useReducer } from "react";
 import {
     Center, Text, useColorModeValue,
-    HStack, Progress, Button
+    VStack, Progress, HStack, StackDivider
 } from "@chakra-ui/react";
-import { useState } from "react";
 
-function Home( { acceptedFiles }) {
-    const [ curVal, setVal ] = useState(0);
+import libFastDrop from '../../../lib/libfastdrop'
 
-    function updateValue() {
-        setVal(curVal + 1);
+const lib = libFastDrop.getInstance();
+
+function Home() {
+    const [ files, setFiles ] = useState(lib.getFileTransfers());
+    const [ ignored, forceUpdate ] = useReducer(x => x + 1, 0);
+
+    lib.fileDetailsUpdate = (files) => {
+        console.log(files);
+        console.log(files[0].currentChunk);
+        setFiles(files);
+        forceUpdate();
     }
 
     return <Center>
-        <HStack pt="150px">
+        <VStack pt="150px" spacing="24">
             <Text fontWeight="bold" fontSize="26px"
                 color={useColorModeValue("gray.600", "gray.300")}>
                 Waiting for files...
             </Text>
 
-            <Button onClick={updateValue}> Test </Button>
-            <Progress value={curVal} color="gray.100" rounded="2xl"/>
-
-        </HStack>
+            <VStack divider={<StackDivider/>} spacing="8">
+                {files.map((f, index) => (
+                    <HStack key={index}>
+                        <Text> {f.fileName}</Text>
+                        <Progress w="300px" h="10px" rounded="xl"
+                            value={(f.currentChunk / f.chunks) * 100}/>
+                    </HStack>
+                ))}
+            </VStack>
+        </VStack>
     </Center>
 }
 
