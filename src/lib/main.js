@@ -107,6 +107,10 @@ function receiver() {
   }
 
   let fastdrop = libFastDrop.getInstance({ user, friends: friends[user.uid] })
+  fastdrop.fileDetailsUpdate = (files)=>{
+    console.log("Callback File Transfers:")
+    console.log(files)
+  }
 }
 
 async function readFile(file){
