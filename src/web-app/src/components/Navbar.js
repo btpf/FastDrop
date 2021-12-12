@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import libFastDrop from '../../../lib/libfastdrop'
-import { signalingServer } from "../secrets.js";
+import { signalingServer } from "../../secrets.js";
 
 const friends = {
     receiver: ["sender"],
