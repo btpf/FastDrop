@@ -64,10 +64,10 @@ function Friends() {
 				</Link>
 			))}
 			{friends2.map((friend, index) => (
-				<Link key={index} _hover={{textDecoration: "none"}} to={`/friends/user/${friend.name}`}>
+				<Link key={index} _hover={{textDecoration: "none"}} to={`/friends/user/Bret`}>
 					<Button w="250px" rounded="xl" size="lg"
 						bg={colorMode === "light" ? "gray.300" : "gray.700"}>
-						<Text>{friend.uid}</Text>
+						<Text>Bret</Text>
 						<Spacer/>
 						<Circle ml="5" size="8px"
 								bg={friend.status === "online" ? "green.400" : "red.500"}/>

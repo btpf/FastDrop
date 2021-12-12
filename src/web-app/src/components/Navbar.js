@@ -1,4 +1,5 @@
 import {
+    Image,
     Box,
     Text,
     Flex,
@@ -64,7 +65,7 @@ function Navbar() {
         <Flex display={{ base: "none", md: "flex" }} basis="25%" justify="flex-start">
             <HStack
                 as="nav"
-                spacing="2"
+                spacing="1"
                 display={{ base: "none", md: "flex" }}>
 
                 {Links.map((link, index) => (
@@ -78,18 +79,18 @@ function Navbar() {
 
         <Flex >
             <Link to="/" _hover={{textDecoration: "none"}} key="0">
-                <Text bgGradient={colorMode === "light" ?
+               <Text bgGradient={colorMode === "light" ?
                 "linear(to-r, gray.600, gray.800)":
-                "linear(to-l, gray.300, gray.200)"}
+                "linear(to-r, gray.300, gray.400)"}
                   bgClip="text" fontSize="3xl" fontWeight="bold"
-                fontSize={{ md: "36px", base: "25px"}}>
-                Fast Drop</Text>
+                fontSize={{ md: "34px", base: "25px"}}>
+                FastDrop</Text>
             </Link>
         </Flex>
 
         <Flex basis="25%" justify="end">
             <IconButton icon={ colorMode === "light" ? <SunIcon/> : <MoonIcon/> }
-            onClick={toggleColorMode} size="lg" rounded="2xl"
+            onClick={toggleColorMode} size="lg" borderRadius="400px"
             bgColor={useColorModeValue("gray.200", "gray.900")}
             _hover={{bg: useColorModeValue("gray.400", "gray.600")}}/>
         </Flex>

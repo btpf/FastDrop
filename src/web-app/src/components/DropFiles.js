@@ -13,7 +13,6 @@ function DropFiles({ getRootProps, getInputProps, userName }) {
         padding: "60px",
         borderWidth: 3,
         borderRadius: 20,
-        borderColor: useColorModeValue("green.400", "gray.900"),
         borderStyle: "solid",
         backgroundColor: useColorModeValue("gray.400", "gray.800"),
         color: useColorModeValue("gray.800", "gray.300"),
@@ -33,8 +32,6 @@ function DropFiles({ getRootProps, getInputProps, userName }) {
     };
 
     const {
-        // getRootProps,
-        // getInputProps,
         isDragActive,
         isDragAccept,
         isDragReject
@@ -54,7 +51,7 @@ function DropFiles({ getRootProps, getInputProps, userName }) {
     return <section>
         <div {...getRootProps({style})}>
             <input {...getInputProps()} />
-            <Text fontSize="lg" color={useColorModeValue("gray.600", "gray.500")}>
+            <Text fontSize="lg" align="center" color={useColorModeValue("gray.600", "gray.500")}>
                 Drag and drop files here to share with {userName}
             </Text>
         </div>
