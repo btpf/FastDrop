@@ -48,7 +48,7 @@ function User({ friendsList, setFriends }) {
                     bgColor={useColorModeValue("gray.200")}
                     color={ !encryptionText ? "green.400" : "red.400" }>
                 <Text pr="2"> {encryptionText ? "Unencrypted" : "Encrypted" } </Text>
-                { encryptionText === "Encrypted" ? <LockIcon/> : <UnlockIcon/> }
+                { !encryptionText ? <LockIcon/> : <UnlockIcon/> }
             </Button>
 
 

@@ -1,5 +1,4 @@
 import {
-    Image,
     Box,
     Text,
     Flex,
@@ -14,7 +13,6 @@ import {
 import { Link } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
 import libFastDrop from '../../../lib/libfastdrop'
-import { signalingServer } from "../../secrets.js";
 
 const friends = {
     receiver: ["sender"],
@@ -31,7 +29,7 @@ let fastdrop = libFastDrop.getInstance({
     user,
     friends: friends[user.uid],
     config: {
-        socketConfig: signalingServer,
+        socketConfig: null,
         RTCPeerConnectionConfig: {
             mandatory: {
                 // offerToReceiveAudio: true
